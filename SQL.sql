@@ -15,10 +15,11 @@ CREATE TABLE vols(
 CREATE TABLE billets(
 	route VARCHAR(7) NOT NULL,
 	codeBillet VARCHAR(1) NOT NULL,
+	we BOOLEAN NOT NULL,
 	depDate INT NOT NULL,
 	tauxRemplissage INT NOT NULL,
 	prix INT NOT NULL,
-	PRIMARY KEY(route, codeBillet)
+	PRIMARY KEY(route, codeBillet,we)
 );
 
 CREATE TABLE taxes(
