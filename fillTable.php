@@ -17,6 +17,7 @@ function read($csv){
     fclose($file);
     return $line;
 }
+exec("C:/Users/ychar/AppData/Local/Programs/Python/Python38/python.exe table.py");
 $dsn = 'mysql:host=localhost;port=3306;dbname=projetCIR2';
 $user = 'admin';
 $password = 'password';
