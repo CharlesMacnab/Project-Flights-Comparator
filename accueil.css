@@ -1,0 +1,38 @@
+#test{
+    background: transparent;
+}
+
+html{
+    overflow: hidden;
+}
+
+#background{
+    filter: blur(0.4vh);
+    -webkit-filter: blur(0.4vh);
+    z-index: 20;
+}
+
+#text{
+    position: absolute;
+    top: 45%;
+
+    z-index: 1;
+}
+
+ #search{
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+    width: 72%;
+    border-radius: 25px;
+    padding-right: -5vw;
+ }
+
+ #title{
+    position: absolute;
+    top: 20%;
+    z-index: 1;
+    font-family: fantasy;
+    color: rgb(255, 184, 52);
+    letter-spacing: 5vw;
+    left: 33%;
+ }
