@@ -17,7 +17,7 @@ CREATE TABLE billets(
 	codeBillet VARCHAR(1) NOT NULL,
 	depDate INTEGER NOT NULL,
 	tauxRemplissage INTEGER NOT NULL,
-	prix INETEGER NOT NULL,
+	prix INTEGER NOT NULL,
 	PRIMARY KEY(route, codeBillet)
 );
 
