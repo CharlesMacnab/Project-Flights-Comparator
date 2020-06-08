@@ -58,7 +58,7 @@
             </div>
             <br>
             <div class="row no-gutters">
-                <form class="col-12" action="recherche.html" method="POST">
+                <form class="col-12" action="recherche.php" method="POST">
                     <table class="table">
                         <thead class="bg-warning">
                             <tr>
@@ -98,7 +98,11 @@
                     <button type="submit" class="btn btn-primary">Choisir</button>
                 </form>
                 <?php
-                
+                if(isset($_POST["fly"])){
+                    echo "<br><div class='row no-gutters'>
+                            <h4>Vous avez choisi le ".$_POST["fly"].".</h4>
+                        </div>";
+                }
                 ?>
             </div>
         </div>
