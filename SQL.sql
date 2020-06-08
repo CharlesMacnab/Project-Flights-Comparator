@@ -1,28 +1,28 @@
 CREATE TABLE vols(
 	ID VARCHAR(6) PRIMARY KEY NOT NULL,
 	route VARCHAR(7) NOT NULL,
-	?distance INTEGER NOT NULL,
+	distance INT NOT NULL,
 	depAirport VARCHAR(3) NOT NULL,
 	depVille VARCHAR(20) NOT NULL,
 	arrAirport VARCHAR(3) NOT NULL,
 	arrVille VARCHAR(20) NOT NULL,
-	jour INTEGER NOT NULL,
+	jour INT NOT NULL,
 	depHeure TIME NOT NULL,
 	arrHeure TIME NOT NULL,
-	nbPlaces INTEGER NOT NULL
+	nbPlaces INT NOT NULL
 );
 
 CREATE TABLE billets(
 	route VARCHAR(7) NOT NULL,
 	codeBillet VARCHAR(1) NOT NULL,
-	depDate INTEGER NOT NULL,
-	tauxRemplissage INTEGER NOT NULL,
-	prix INTEGER NOT NULL,
+	depDate INT NOT NULL,
+	tauxRemplissage INT NOT NULL,
+	prix INT NOT NULL,
 	PRIMARY KEY(route, codeBillet)
 );
 
 CREATE TABLE taxes(
 	idAirport VARCHAR(3) PRIMARY KEY NOT NULL,
 	ville VARCHAR(20) NOT NULL,
-	taxe INTEGER NOT NULL
+	taxe INT NOT NULL
 );
