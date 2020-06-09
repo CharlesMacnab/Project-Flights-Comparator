@@ -1,7 +1,14 @@
-html{
-    overflow: hidden;
+#confirmation{
+    position: absolute;
+    top: 15vh;
+    z-index: 1;
 }
-
+#div-conf{
+    border-radius: 5px;
+}
+h3{
+    margin-left: 4vw;
+}
 #background{
     filter: blur(0.4vh);
     -webkit-filter: blur(0.4vh);
