@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 if($_GET['func'] == 'suiteRecherche'){
     suiteRecherche($_POST['number']);
 }
@@ -111,6 +113,26 @@ function suiteRecherche($number){
         
     }
 
+
+}
+
+function infoConfirmation($bdd){
+    
+    $qry = "SELECT nom,prenom,age INTO Passager WHERE idReservation=?";
+    $slct = $bdd->prepare($qry);
+    $slct->execute([$_SESSION["idCommande"]]);
+    
+    $passagers = $slct->fetchAll();
+    
+    $qry2 = "SELECT INTO Fly WHERE ID=?";
+    $slct2 = $bdd->prepare($qry2);
+    $slct2->execute([$passagers[0]["ID_FLY"]]);
+    $vol = $slct2->fetch();
+
+    $data = array($array($_SESSION["nbPass"],$_SESSION["id_Vol"],$_SESSION["villeDep"],$_SESSION["villeArr"],$_SESSION["heureDep"],$vol["dateToDeparture"],$_SESSION["prix"]),$passagers)
+    
+    $json = json_encode($data);
+    echo $json;
 
 }
 
