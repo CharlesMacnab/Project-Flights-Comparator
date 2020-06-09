@@ -1,0 +1,9 @@
+html{
+    overflow: hidden;
+}
+
+#background{
+    filter: blur(0.4vh);
+    -webkit-filter: blur(0.4vh);
+    z-index: 20;
+}
