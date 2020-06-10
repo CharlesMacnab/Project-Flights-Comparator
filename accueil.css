@@ -15,16 +15,15 @@ html{
 #text{
     position: absolute;
     top: 45%;
-
     z-index: 1;
 }
 
  #search{
     padding-top: 2vh;
     padding-bottom: 2vh;
-    width: 72%;
     border-radius: 25px;
     padding-right: -5vw;
+    width: 90%;
  }
 
  #title{
