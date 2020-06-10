@@ -22,9 +22,7 @@ function setPassager() {
         ajaxRequest("GET", "http://localhost/Projet-CIR2/controlleur.php",null,"func=setPassenger"+data);          
     }
 
-    console.log(data);
-    
-
+    window.location.href = "recherche.html";
 }
 
 ajaxRequest("GET", "http://localhost/Projet-CIR2/controlleur.php",createFormPassenger,"func=getInfoVol");
