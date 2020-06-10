@@ -1,0 +1,31 @@
+td, th {
+    text-align : center;
+}
+
+.form-check-input {
+    margin-left : 0;
+}
+
+html{
+    overflow: hidden;
+}
+
+#background{
+    filter: blur(0.4vh);
+    -webkit-filter: blur(0.4vh);
+    z-index: 20;
+}
+
+#box{
+    position: absolute;
+    z-index: 1;
+    top: 10%;
+}
+
+#title{
+    color: rgb(230, 149, 0);
+}
+
+#box2{
+    border-radius: 10px;
+}
