@@ -115,6 +115,14 @@ function suiteRecherche($number){
 
 
 }
+function infoVol(){
+    if(isset($_POST["depart"],$_POST["arrive"],$_POST["date"],$_POST["passager"])){
+        $_SESSION["airportD"] = $_POST["depart"];
+        $_SESSION["airportA"] = $_POST["arrive"];
+        $_SESSION["dateVol"] = $_POST["date"];
+        $_SESSION["nbPass"] = $_POST["passager"];
+    }
+}
 
 function infoConfirmation($bdd){
     
@@ -139,5 +147,7 @@ function infoConfirmation($bdd){
 if($_GET["func"]=="infoConfirmation"){
     infoConfirmation($bdd);
 }
-
+if($_GET["func"]=="infoVol"){
+    infoVol();
+}
 ?>
