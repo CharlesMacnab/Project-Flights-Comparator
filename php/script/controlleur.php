@@ -23,6 +23,9 @@ function infoVol(){
         $_SESSION["airportA"] = $_POST["arrive"];
         $_SESSION["dateVol"] = $_POST["date"];
         $_SESSION["nbPass"] = $_POST["passager"];
+        $tab = array($_POST["passager"]);
+        $json = json_encode($tab);
+        echo $json;
     }
 }
 
