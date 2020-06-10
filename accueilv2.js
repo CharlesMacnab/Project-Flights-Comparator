@@ -10,15 +10,24 @@ function createFormPassenger(data){
     
 }
 
+function print(data){
+    console.log(data);
+}
 function setPassager() {
-    let passengers = Array();
+    let data = "";
     for(let i=1; i<=numberPassenger;i++){
         let nom = document.getElementById("nom"+i).value;
-        let prenom = document.getElementById("nom"+i).value;
-        let mail = document.getElementById("nom"+i).value;
-        let date = document.getElementById("nom"+i).value;
-        passenger = []            
+        let prenom = document.getElementById("prenom"+i).value;
+        let mail = document.getElementById("email"+i).value;
+        let date = document.getElementById("date"+i).value;
+        let passenger = "&passenger="+i+" "+nom+" "+prenom+" "+date+" "+mail;
+        data += passenger;
+        ajaxRequest("GET", "http://localhost/Projet-CIR2/controlleur.php",print,"func=setPassenger"+data);          
     }
+
+    console.log(data);
+    
+
 }
 
 ajaxRequest("GET", "http://localhost/Projet-CIR2/controlleur.php",createFormPassenger,"func=getInfoVol");

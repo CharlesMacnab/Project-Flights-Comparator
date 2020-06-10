@@ -42,12 +42,13 @@ function infoVol($bdd){
 }
 
 function infoPassager($bdd){
-    for($i=1;$i<=$_SESSION['nbPass'];$i++){
-        $query = "INSERT INTO customer VALUES(DEFAULT,?,?,?,?)";
-        $insert = $bdd->prepare($query);
-        $insert->execute([$_GET['nom'.$i],$_GET['prenom'.$i],$_GET['date'.$i],$_GET['mail'.$i]]);
-        $_SESSION['passager'.$i] = array($_GET['nom'.$i],$_GET['prenom'.$i],$_GET['date'.$i],$_GET['mail'.$i]);
-    }
+    $query = "INSERT INTO customer VALUES(DEFAULT,?,?,?,?)";
+    $insert = $bdd->prepare($query);*/
+    $pas = explode(' ',$_GET['passenger']);
+    $id = $pas[0];
+    $insert->execute([$pas[1],$pas[2],$pas[3],$pas[4]]);
+    $_SESSION["passager".$id] = array($pas[1],$pas[2],$pas[3],$pas[4]);
+   
 }
 
 function getInfoVol(){
@@ -58,11 +59,10 @@ function getInfoVol(){
 
 function infoConfirmation(){
 
-    /*$qry = "SELECT nom,prenom,age INTO Passager WHERE idReservation=?";
-    $slct = $bdd->prepare($qry);
-    $slct->execute([$_SESSION["idCommande"]]);
-
-    $passagers = $slct->fetchAll();
+    $passagers = array();
+    for($i=1;$i<=$_SESSION["nbPass"];$i++){
+        $passagers.push($_SESSION["passager".$i]);
+    }
 
     $qry2 = "SELECT INTO Fly WHERE ID=?";
     $slct2 = $bdd->prepare($qry2);
@@ -73,7 +73,7 @@ function infoConfirmation(){
     $data = array(array($_SESSION["nbPass"],$_SESSION["id_Vol"],$_SESSION["cityDep"],$_SESSION["cityArr"],$_SESSION["heureDep"],$vol["dateToDeparture"],$_SESSION["prix"]),$passagers);
 
     $json = json_encode($data);
-    echo $json;*/
+    echo $json;
 
 }
 
@@ -85,6 +85,9 @@ if($_GET["func"]=="infoVol"){
 }
 if($_GET["func"]=="getInfoVol"){
     getInfoVol();
+}
+if($_GET["func"]=="setPassenger"){
+    infoPassager($bdd);
 }
 
 
