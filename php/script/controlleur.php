@@ -43,7 +43,7 @@ function infoConfirmation($bdd){
     $vol = $slct2->fetch();
 
 
-    $data = array($array($_SESSION["nbPass"],$_SESSION["id_Vol"],$_SESSION["villeDep"],$_SESSION["villeArr"],$_SESSION["heureDep"],$vol["dateToDeparture"],$_SESSION["prix"]),$passagers)
+    $data = array(array($_SESSION["nbPass"],$_SESSION["id_Vol"],$_SESSION["villeDep"],$_SESSION["villeArr"],$_SESSION["heureDep"],$vol["dateToDeparture"],$_SESSION["prix"]),$passagers)
     
     $json = json_encode($data);
     echo $json;
