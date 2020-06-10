@@ -2,6 +2,8 @@ CREATE TABLE AirportSurchanges(
                                   airportCode Varchar (50) NOT NULL ,
                                   city        Varchar (50) NOT NULL ,
                                   state       Varchar (50) NOT NULL ,
+                                  latitude    INT NOT NULL,
+                                  logitude    INT NOT NULL,
                                   surcharge   Int NOT NULL
     ,CONSTRAINT AirportSurchanges_PK PRIMARY KEY (airportCode)
 );
