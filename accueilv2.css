@@ -4,8 +4,12 @@
     left: 9%;
     z-index: 1;
     border-radius: 10px;
-    
+
 }
+
+
+
+
 
 #background{
     filter: blur(0.4vh);
@@ -17,6 +21,7 @@
 #text{
     position: absolute;
     top: 45%;
+
     z-index: 1;
 }
 
