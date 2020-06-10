@@ -13,6 +13,7 @@
 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
+      <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 
 </head>
 <body>
@@ -57,21 +58,21 @@
                 <div class="col-3">
                     <div class="form-group">
                         <i style="margin-right: 0.4vw;" class="fas fa-plane-departure"></i>
-                        <input type="text" class="form-control form-control-lg" placeholder="Départ" id="depAir" required>
+                        <input type="text" class="form-control form-control-lg" placeholder="Départ" name="depart" required>
                     </div>
                 </div>
                 <div class="col-3">
                     <div class="form-group">
                         <i style="margin-right: 0.4vw;" class="fas fa-plane-arrival"></i>
-                        <input type="text" class="form-control form-control-lg" placeholder="Destination" id="arrAir" required>
+                        <input type="text" class="form-control form-control-lg" placeholder="Destination" name="arrive" required>
                     </div>
                 </div>
                 <div class="col-5">
                     <div class="form-group">
                         <i style="margin-right: 0.4vw;" class="fas fa-plane"></i>
-                        <input type="date"  style="margin-right: 3vw;" class="form-control form-control-lg" id="date" required>
+                        <input type="date"  style="margin-right: 3vw;" class="form-control form-control-lg" name="date" required>
                         <div style="margin-right: 2vw;">
-                            <select class="custom-select mr-sm-2"  id="passengers">
+                            <select class="custom-select mr-sm-2" name="passager"  id="passengers">
                                 <option selected value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -96,11 +97,12 @@
     
 
   
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   <script src="https://kit.fontawesome.com/d089c7669a.js" crossorigin="anonymous"></script>
-  <script src="accueil.js"></script>
+  <script src="ajax.js"></script>
 
+  <script src="accueil.js"></script>
+  
 </body>
 </html>
