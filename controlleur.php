@@ -136,4 +136,8 @@ function infoConfirmation($bdd){
 
 }
 
+if($_GET["func"]=="infoConfirmation"){
+    infoConfirmation($bdd);
+}
+
 ?>
