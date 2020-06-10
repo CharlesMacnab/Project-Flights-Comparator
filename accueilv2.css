@@ -1,25 +1,22 @@
 #text2{
     position: absolute;
     top: 20%;
+    left: 9%;
     z-index: 1;
-    left: 30%;
-    background-color: rgb(253, 172, 22);
-}
-
-html{
-    overflow: hidden;
+    border-radius: 10px;
+    
 }
 
 #background{
     filter: blur(0.4vh);
     -webkit-filter: blur(0.4vh);
-    z-index: 20;
+    position: fixed;
+    z-index: -1;
 }
 
 #text{
     position: absolute;
     top: 45%;
-
     z-index: 1;
 }
 

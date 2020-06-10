@@ -43,7 +43,7 @@ function infoVol($bdd){
 
 function infoPassager($bdd){
     $query = "INSERT INTO customer VALUES(DEFAULT,?,?,?,?)";
-    $insert = $bdd->prepare($query);*/
+    $insert = $bdd->prepare($query);
     $pas = explode(' ',$_GET['passenger']);
     $id = $pas[0];
     $insert->execute([$pas[1],$pas[2],$pas[3],$pas[4]]);
