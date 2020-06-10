@@ -115,6 +115,14 @@ function suiteRecherche($number){
 
 
 }
+function infoVol(){
+    if(isset($_POST["depart"],$_POST["arrive"],$_POST["date"],$_POST["passager"])){
+        $_SESSION["airportD"] = $_POST["depart"];
+        $_SESSION["airportA"] = $_POST["arrive"];
+        $_SESSION["dateVol"] = $_POST["date"];
+        $_SESSION["nbPass"] = $_POST["passager"];
+    }
+}
 
 function infoConfirmation($bdd){
     
@@ -129,6 +137,7 @@ function infoConfirmation($bdd){
     $slct2->execute([$passagers[0]["ID_FLY"]]);
     $vol = $slct2->fetch();
 
+
     $data = array($array($_SESSION["nbPass"],$_SESSION["id_Vol"],$_SESSION["villeDep"],$_SESSION["villeArr"],$_SESSION["heureDep"],$vol["dateToDeparture"],$_SESSION["prix"]),$passagers)
     
     $json = json_encode($data);
@@ -139,5 +148,7 @@ function infoConfirmation($bdd){
 if($_GET["func"]=="infoConfirmation"){
     infoConfirmation($bdd);
 }
-
+if($_GET["func"]=="infoVol"){
+    infoVol();
+}
 ?>
