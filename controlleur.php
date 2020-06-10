@@ -17,17 +17,31 @@ function connexion($base, $user, $password){
 
 }
 
-function infoVol($passagers){
-    //if(isset($_POST["depart"],$_POST["arrive"],$_POST["date"],$_POST["passager"])){
-        //$_SESSION["airportD"] = $_POST["depart"];
-        //$_SESSION["airportA"] = $_POST["arrive"];
-        //$_SESSION["dateVol"] = $_POST["date"];
-        $_SESSION["nbPass"] = $_GET["nbPass"];
+function infoVol($bdd){
+    $_SESSION["airDep"] = $_GET["depAir"];
+    $_SESSION["airArr"] = $_GET["arrAir"];
+    $_SESSION["dateVol"] = $_GET["date"];
+    $_SESSION["nbPass"] = $_GET["nbPass"];
+
+    $qry = "SELECT FROM AirportSurchanges WHERE airportCode=?"
+
+    $slct = $bdd->prepare($qry);
+    $slct->execute([$_SESSION["airDep"]]);
+    $rst = $slct->fetch();
+    $_SESSION["cityDep"] = $rst["city"];
     
+    $slct2 = $bdd->prepare($qry);
+    $slct2->execute([$_SESSION["airArr"]]);
+    $rst2 = $slct2->fetch();
+    $_SESSION["cityArr"] = $rst2["city"];
 }
 
-function getPass(){
-    $json = json_encode($_SESSION["nbPass"]);
+function infoPassager(){
+
+}
+
+function getInfoVol(){
+    $json = json_encode([$_SESSION["nbPass"],$_SESSION["depArr"],$_SESSION["cityDep"],$_SESSION["airArr"],$_SESSION["cityArr"],$_SESSION["dateVol"]]);
     echo $json;
 }
 
@@ -45,7 +59,7 @@ function infoConfirmation($bdd){
     $vol = $slct2->fetch();
 
 
-    $data = array(array($_SESSION["nbPass"],$_SESSION["id_Vol"],$_SESSION["villeDep"],$_SESSION["villeArr"],$_SESSION["heureDep"],$vol["dateToDeparture"],$_SESSION["prix"]),$passagers);
+    $data = array(array($_SESSION["nbPass"],$_SESSION["id_Vol"],$_SESSION["cityDep"],$_SESSION["cityArr"],$_SESSION["heureDep"],$vol["dateToDeparture"],$_SESSION["prix"]),$passagers);
     
     $json = json_encode($data);
     echo $json;
@@ -56,10 +70,10 @@ if($_GET["func"]=="infoConfirmation"){
     //infoConfirmation();
 }
 if($_GET["func"]=="infoVol"){
-    infoVol();
+    infoVol($bdd);
 }
-if($_GET["func"]=="getPass"){
-    getPass();
+if($_GET["func"]=="getInfoVol"){
+    getInfoVol();
 }
 
 

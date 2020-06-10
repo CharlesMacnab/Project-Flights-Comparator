@@ -1,7 +1,7 @@
 function createFormPassenger(data){
     
     console.log(data)
-    let numberPassenger = data;
+    let numberPassenger = data[0];
     var i=1;
     console.log(numberPassenger);
     for (i; i<=numberPassenger; i++){
@@ -10,4 +10,4 @@ function createFormPassenger(data){
     
 }
 
-ajaxRequest("GET", "http://localhost/Projet/controlleur.php",createFormPassenger,"func=getPass");
+ajaxRequest("GET", "http://localhost/Projet/controlleur.php",createFormPassenger,"func=getInfoVol");

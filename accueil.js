@@ -1,15 +1,13 @@
 
-
-
-
-
-
 function setNumber(){
     let nbPass = document.getElementById("passengers").value;
-    ajaxRequest("GET", "http://localhost/Projet/controlleur.php",null,"func=infoVol&nbPass="+nbPass);
-    window.location.href = "accueilv2.html";
-
-    
+    let depAir = document.getElementById("depAir").value;
+    let arrAir = document.getElementById("arrAir").value;
+    let date = document.getElementById("date").value;
+    if(nbPass!=null && depAir!=null && arrAir!=null && date!=null){
+        ajaxRequest("GET", "http://localhost/Projet/controlleur.php",null,"func=infoVol&nbPass="+nbPass+"&depAir="+depAir+"&arrAir="+arrAir+"&date="+date);
+        window.location.href = "accueilv2.html";
+    }
 }
     
 
