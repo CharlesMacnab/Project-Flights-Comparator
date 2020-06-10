@@ -57,7 +57,7 @@ function getInfoVol(){
     echo $json;
 }
 
-function infoConfirmation(){
+function infoConfirmation($bdd){
 
     $passagers = array();
     for($i=1;$i<=$_SESSION["nbPass"];$i++){
@@ -78,7 +78,7 @@ function infoConfirmation(){
 }
 
 if($_GET["func"]=="infoConfirmation"){
-    //infoConfirmation();
+    infoConfirmation($bdd);
 }
 if($_GET["func"]=="infoVol"){
     infoVol($bdd);

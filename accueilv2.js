@@ -10,9 +10,6 @@ function createFormPassenger(data){
     
 }
 
-function print(data){
-    console.log(data);
-}
 function setPassager() {
     let data = "";
     for(let i=1; i<=numberPassenger;i++){
@@ -22,7 +19,7 @@ function setPassager() {
         let date = document.getElementById("date"+i).value;
         let passenger = "&passenger="+i+" "+nom+" "+prenom+" "+date+" "+mail;
         data += passenger;
-        ajaxRequest("GET", "http://localhost/Projet-CIR2/controlleur.php",print,"func=setPassenger"+data);          
+        ajaxRequest("GET", "http://localhost/Projet-CIR2/controlleur.php",null,"func=setPassenger"+data);          
     }
 
     console.log(data);
