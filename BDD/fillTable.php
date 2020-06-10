@@ -63,7 +63,7 @@ function fill($bdd){
     $taxes = 'airportsurcharges2.csv';
     $taxes = read($taxes);
     for($i=1;$i<count($taxes);$i++){
-        $query2 = "INSERT INTO AirportSurchanges VALUES(?,?,?,?)";
+        $query2 = "INSERT INTO AirportSurchanges VALUES(?,?,?,0,0,?)";
         $insert2 = $bdd->prepare($query2);
         $insert2->execute([$taxes[$i][2],$taxes[$i][0],$taxes[$i][1],$taxes[$i][3]]);
     }
@@ -83,9 +83,14 @@ function fill($bdd){
         $src = $bdd->prepare($search);
         $src->execute([$fli[$i][3]]);
         if($src->rowCount() == 0){
-            $qry = "INSERT INTO AirportSurchanges VALUES (?,?,'UNKNOWN',0)";
+            $qry = "INSERT INTO AirportSurchanges VALUES (?,?,'UNKNOWN',?,?,0)";
             $insrt = $bdd->prepare($qry);
-            $insrt->execute([$fli[$i][3],$fli[$i][4]]);
+            $insrt->execute([$fli[$i][3],$fli[$i][4],$fli[$i][5],$fli[$i][6]]);
+        }
+        else {
+            $qry = "UPDATE AirportSurchanges SET latitude = $fli[$i][5], longitude = $fli[$i][6] WHERE airportCode=?";
+            $update = $bdd->prepare($qry);
+            $update->execute([$fli[$i][3]]);
         }
     }
 
