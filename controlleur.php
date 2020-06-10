@@ -23,7 +23,7 @@ function infoVol($bdd){
     $_SESSION["dateVol"] = $_GET["date"];
     $_SESSION["nbPass"] = $_GET["nbPass"];
 
-    $qry = "SELECT FROM AirportSurchanges WHERE airportCode=?"
+    $qry = "SELECT FROM AirportSurchanges WHERE airportCode=?";
 
     $slct = $bdd->prepare($qry);
     $slct->execute([$_SESSION["airDep"]]);
