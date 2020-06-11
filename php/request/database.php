@@ -58,7 +58,7 @@ function dbRequestFly($db, $id_vol, $nbPlacesMax){
 
 function dbRequestVilles($db){
     try {
-        $request = 'SELECT airportCode, city FROM airportsurchanges GROUP BY city';
+        $request = 'SELECT airportCode, city FROM airportsurchanges';
         $statement = $db->prepare($request);
         $statement->execute();
         $result = $statement->fetchall(PDO::FETCH_ASSOC);
