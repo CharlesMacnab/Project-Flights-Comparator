@@ -8,7 +8,7 @@ function dbRequestRoutes($db, $depAirport, $arrAirport, $jour){
         $statement->bindParam(':arrAirport', $arrAirport, PDO::PARAM_STR_CHAR);
         $statement->bindParam(':jour', $jour, PDO::PARAM_INT);
         $statement->execute();
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     catch (PDOException $exception) {
@@ -25,7 +25,7 @@ function dbRequestFly($db, $id_vol, $nbPlacesMax){
         $statement->bindParam(':id_Vol', $id_vol, PDO::PARAM_INT);
         $statement->bindParam(':filling', $nbPlacesMax, PDO::PARAM_INT);
         $statement->execute();
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     catch (PDOException $exception) {
