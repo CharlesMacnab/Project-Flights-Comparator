@@ -31,7 +31,7 @@ function autocompleteVilles(villes) {
 
     alert(liste);
 
-    $('#depart').autocomplete({
+    $('#depAir').autocomplete({
         source : liste,
         minLength: 3,
 	delay: 200
@@ -39,7 +39,7 @@ function autocompleteVilles(villes) {
 	
 
 
-    $('#arrivee').autocomplete({
+    $('#arrAir').autocomplete({
         source : liste,
         minLength: 3,
 	delay: 200
