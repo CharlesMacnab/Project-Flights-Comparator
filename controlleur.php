@@ -2,9 +2,7 @@
 
 session_start();
 
-if($_GET['func'] == 'suiteRecherche'){
-    suiteRecherche($_POST['number']);
-}
+
 
 function connexion($base, $user, $password){
 
@@ -17,137 +15,94 @@ function connexion($base, $user, $password){
 
 }
 
-function suiteRecherche($number){
+$bdd = connexion('mysql:host=localhost;port=3306;dbname=projetCIR2','admin','password');
 
-    $dbh = connexion('pgsql:host=localhost;dbname=etudiants', 'postgres', 'isen2018');
+function infoVol($bdd){
 
+    $_SESSION['depart'] = $_GET['depAir'];
+    $_SESSION['arrive'] = $_GET['arrAir'];
+    $_SESSION['dateVol'] = $_GET['date'];
+    $_SESSION['nbPass'] = $_GET['nbPass'];
 
-    if($number == 1){
-        <form>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="inputEmail4">Nom</label>
-                    <input type="text" class="form-control" id="inputEmail4">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="inputPassword4">Prénom</label>
-                    <input type="text" class="form-control" id="inputPassword4">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="inputEmail4">Email</label>
-                    <input type="email" class="form-control" id="inputEmail4">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="inputPassword4">Password</label>
-                    <input type="password" class="form-control" id="inputPassword4">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputAddress">Address</label>
-                <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-            </div>
-            <div class="form-group">
-                <label for="inputAddress2">Address 2</label>
-                <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                <label for="inputCity">City</label>
-                <input type="text" class="form-control" id="inputCity">
-                </div>
-                <div class="form-group col-md-4">
-                <label for="inputState">State</label>
-                <select id="inputState" class="form-control">
-                    <option selected>Choose...</option>
-                    <option>...</option>
-                </select>
-                </div>
-                <div class="form-group col-md-2">
-                <label for="inputZip">Zip</label>
-                <input type="text" class="form-control" id="inputZip">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="gridCheck">
-                <label class="form-check-label" for="gridCheck">
-                    Check me out
-                </label>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Sign in</button>
-        </form>
-    }
+    $qry = "SELECT city FROM AirportSurchanges WHERE airportCode=?";
 
-    if($number == 2){
-        
-    }
-
-    if($number == 3){
-        
-    }
-
-    if($number == 4){
-        
-    }
-
-    if($number == 5){
-        
-    }
-
-    if($number == 6){
-        
-    }
-
-    if($number == 7){
-        
-    }
-
-    if($number == 8){
-        
-    }
-
-    if($number == 9){
-        
-    }
-
-
-}
-function infoVol(){
-    if(isset($_POST["depart"],$_POST["arrive"],$_POST["date"],$_POST["passager"])){
-        $_SESSION["airportD"] = $_POST["depart"];
-        $_SESSION["airportA"] = $_POST["arrive"];
-        $_SESSION["dateVol"] = $_POST["date"];
-        $_SESSION["nbPass"] = $_POST["passager"];
-    }
-}
-
-function infoConfirmation($bdd){
-    
-    $qry = "SELECT nom,prenom,age INTO Passager WHERE idReservation=?";
     $slct = $bdd->prepare($qry);
-    $slct->execute([$_SESSION["idCommande"]]);
-    
-    $passagers = $slct->fetchAll();
-    
+    $slct->execute([$_GET['depAir']]);
+    $rst = $slct->fetch();
+    $_SESSION['cityDep'] = $rst['city'];
+
+    $slct2 = $bdd->prepare($qry);
+    $slct2->execute([$_SESSION['arrive']]);
+    $rst2 = $slct2->fetch();
+    $_SESSION['cityArr'] = $rst2['city'];
+
+    $tab = array($_SESSION['nbPass'],$_SESSION['depart'],$_SESSION['cityDep'],$_SESSION['arrive'],$_SESSION['cityArr'],$_SESSION['dateVol']);
+    $json = json_encode($tab);
+    echo $json;
+}
+
+function infoPassager($bdd){
+    $query = "INSERT INTO customer VALUES(DEFAULT,?,?,?,?)";
+    $insert = $bdd->prepare($query);
+    $pas = explode(' ',$_GET['passenger']);
+    $id = $pas[0];
+    $insert->execute([$pas[1],$pas[2],$pas[3],$pas[4]]);
+    $_SESSION["passager".$id] = array($pas[1],$pas[2],$pas[3],$pas[4]);
+   
+}
+
+function getInfoVol(){
+    $tab = array($_SESSION['nbPass'],$_SESSION['depart'],$_SESSION['cityDep'],$_SESSION['arrive'],$_SESSION['cityArr'],$_SESSION['dateVol']);
+    $json = json_encode($tab);
+    echo $json;
+}
+
+function infoConfirmation(){
+
+    $passagers = array();
+    for($i=1;$i<=$_SESSION["nbPass"];$i++){
+        $passagers.push($_SESSION["passager".$i]);
+    }
+
     $qry2 = "SELECT INTO Fly WHERE ID=?";
     $slct2 = $bdd->prepare($qry2);
     $slct2->execute([$passagers[0]["ID_FLY"]]);
     $vol = $slct2->fetch();
 
-    $data = array($array($_SESSION["nbPass"],$_SESSION["id_Vol"],$_SESSION["villeDep"],$_SESSION["villeArr"],$_SESSION["heureDep"],$vol["dateToDeparture"],$_SESSION["prix"]),$passagers)
-    
+
+    $data = array(array($_SESSION["nbPass"],$_SESSION["id_Vol"],$_SESSION["cityDep"],$_SESSION["cityArr"],$_SESSION["heureDep"],$vol["dateToDeparture"],$_SESSION["prix"]),$passagers);
+
     $json = json_encode($data);
     echo $json;
 
 }
 
+function getSearch(){
+    $tab[0] = $_SESSION["nbrOfVols"];
+    for ($i = 1 ; $i <= $_SESSION["nbrOfVols"] ; $i++){
+        $tab[$i] = array($_SESSION["id_Vol"],$_SESSION['dateVol'],$_SESSION["heureDep"], $_SESSION["heureArr"],$_SESSION["tarifTotal"]);
+    }
+    $json = json_encode($tab);
+    echo $json;
+}
+
+if($_GET["func"]=="getSearch"){
+    getSearch();
+}
+
 if($_GET["func"]=="infoConfirmation"){
-    infoConfirmation($bdd);
+    //infoConfirmation();
 }
 if($_GET["func"]=="infoVol"){
-    infoVol();
+    infoVol($bdd);
 }
+if($_GET["func"]=="getInfoVol"){
+    getInfoVol();
+}
+if($_GET["func"]=="setPassenger"){
+    infoPassager($bdd);
+}
+
+
+
 ?>
