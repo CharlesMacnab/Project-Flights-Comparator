@@ -46,7 +46,7 @@
         //echo $data['ID'];
     }
 
-    if ($requestRessource == 'depart'){
+    if ($requestRessource == 'villes'){
         $villesOk = dbRequestVilles($db);
         $data = $villesOk;
     }
