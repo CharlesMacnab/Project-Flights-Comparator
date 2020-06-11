@@ -46,12 +46,8 @@ function infoPassager($bdd){
     $insert = $bdd->prepare($query);
     $pas = explode(' ',$_GET['passenger']);
     $id = $pas[0];
-    $date1 = new DateTime("now");
-    $date2 = new DateTime($pas[3]);
-    $datediff = $date1->diff($date2);
-    $age = (int)$datediff->format("%Y");
     $insert->execute([$pas[1],$pas[2],$pas[3],$pas[4]]);
-    $_SESSION["passager".$id] = array($pas[1],$pas[2],$age,$pas[4],0);
+    $_SESSION["passager".$id] = array($pas[1],$pas[2],$pas[3],$pas[4]);
    
 }
 
@@ -61,23 +57,41 @@ function getInfoVol(){
     echo $json;
 }
 
-function infoConfirmation($bdd){
+function infoConfirmation(){
 
     $passagers = array();
     for($i=1;$i<=$_SESSION["nbPass"];$i++){
         $passagers.push($_SESSION["passager".$i]);
     }
 
+    $qry2 = "SELECT INTO Fly WHERE ID=?";
+    $slct2 = $bdd->prepare($qry2);
+    $slct2->execute([$passagers[0]["ID_FLY"]]);
+    $vol = $slct2->fetch();
 
-    $data = array(array($_SESSION["nbPass"],$_SESSION["id_Vol"],$_SESSION["depart"],$_SESSION["cityDep"],$_SESSION["arrive"],$_SESSION["cityArr"],$_SESSION["dateToDeparture"],$_SESSION["heureDep"],$_SESSION["heureArr"]),$passagers);
+
+    $data = array(array($_SESSION["nbPass"],$_SESSION["id_Vol"],$_SESSION["cityDep"],$_SESSION["cityArr"],$_SESSION["heureDep"],$vol["dateToDeparture"],$_SESSION["prix"]),$passagers);
 
     $json = json_encode($data);
     echo $json;
 
 }
 
+function getSearch(){
+    $tab[0] = $_SESSION["nbrOfVols"];
+    for ($i = 1 ; $i <= $_SESSION["nbrOfVols"] ; $i++){
+        $tab[$i] = array($_SESSION["id_Vol"],$_SESSION['dateVol'],$_SESSION["heureDep"], $_SESSION["heureArr"],$_SESSION["tarifTotal"]);
+    }
+    $json = json_encode($tab);
+    echo $json;
+}
+
+if($_GET["func"]=="getSearch"){
+    getSearch();
+}
+
 if($_GET["func"]=="infoConfirmation"){
-    infoConfirmation($bdd);
+    //infoConfirmation();
 }
 if($_GET["func"]=="infoVol"){
     infoVol($bdd);
