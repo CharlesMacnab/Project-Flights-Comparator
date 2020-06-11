@@ -1,59 +1,115 @@
-CREATE TABLE AirportSurchanges(
-                                  airportCode Varchar (50) NOT NULL ,
-                                  city        Varchar (50) NOT NULL ,
-                                  state       Varchar (50) NOT NULL ,
-                                  surcharge   Int NOT NULL
-    ,CONSTRAINT AirportSurchanges_PK PRIMARY KEY (airportCode)
-);
+#------------------------------------------------------------
+#        Script MySQL.
+#------------------------------------------------------------
 
-CREATE TABLE Fights(
-                       id_Vol                        Int  Auto_increment  NOT NULL ,
-                       route                         Varchar (50) NOT NULL ,
-                       distanceKm                    Int NOT NULL ,
-                       dayOfWeek                     Int NOT NULL ,
-                       departureTime                 Time NOT NULL ,
-                       arrivalTime                   time NOT NULL ,
-                       flightSize                    Int NOT NULL ,
-                       airportCode                   Varchar (50) NOT NULL ,
-                       airportCode_AirportSurchanges Varchar (50) NOT NULL
-    ,CONSTRAINT Fights_PK PRIMARY KEY (id_Vol)
 
-    ,CONSTRAINT Fights_AirportSurchanges_FK FOREIGN KEY (airportCode) REFERENCES AirportSurchanges(airportCode)
-    ,CONSTRAINT Fights_AirportSurchanges0_FK FOREIGN KEY (airportCode_AirportSurchanges) REFERENCES AirportSurchanges(airportCode)
-);
+#------------------------------------------------------------
+# Table: airportSurchanges
+#------------------------------------------------------------
 
-CREATE TABLE Fares(
-                      id              VARCHAR(50) NOT NULL ,
-                      route           Varchar (50) NOT NULL ,
-                      weFlights       Int NOT NULL ,
-                      fareCode        Varchar (50) NOT NULL ,
-                      dateToDeparture Int NOT NULL ,
-                      fillingRate     Int NOT NULL ,
-                      fare            Int NOT NULL
-    ,CONSTRAINT Fares_PK PRIMARY KEY (id)
-);
+CREATE TABLE airportSurchanges(
+        airportCode Varchar (50) NOT NULL ,
+        city        Varchar (200) NOT NULL ,
+        state       Varchar (200) NOT NULL ,
+        longitude   Double NOT NULL ,
+        latitude    Double NOT NULL ,
+        surcharge   Float NOT NULL
+	,CONSTRAINT airportSurchanges_PK PRIMARY KEY (airportCode)
+)ENGINE=InnoDB;
 
-CREATE TABLE Fly(
-                    ID              Int  Auto_increment  NOT NULL ,
-                    filling         Int NOT NULL ,
-                    dateToDeparture Date NOT NULL ,
-                    id_Vol          Int NOT NULL
-    ,CONSTRAINT Fly_PK PRIMARY KEY (ID)
 
-    ,CONSTRAINT Fly_Fights_FK FOREIGN KEY (id_Vol) REFERENCES Fights(id_Vol)
-);
+#------------------------------------------------------------
+# Table: road
+#------------------------------------------------------------
 
-CREATE TABLE Passager(
-                         id              Int  Auto_increment  NOT NULL ,
-                         Prix            Float NOT NULL ,
-                         nom             Varchar (50) NOT NULL ,
-                         prenom          Varchar (50) NOT NULL ,
-                         age             Varchar (50) NOT NULL ,
-                         tel             Varchar (50) NOT NULL ,
-                         mail            Varchar (50) NOT NULL ,
-                         DateReservation Date NOT NULL ,
-                         ID_Fly          Int NOT NULL
-    ,CONSTRAINT Passager_PK PRIMARY KEY (id)
+CREATE TABLE road(
+        idRoad                        Varchar (50) NOT NULL ,
+        flightDistance                Float NOT NULL ,
+        dayOfWeek                     Int NOT NULL ,
+        departureTime                 Time NOT NULL ,
+        arrivalTime                   Time NOT NULL ,
+        flightSize                    Int NOT NULL ,
+        airportCode                   Varchar (50) NOT NULL ,
+        airportCode_airportSurchanges Varchar (50) NOT NULL
+	,CONSTRAINT road_PK PRIMARY KEY (idRoad)
 
-    ,CONSTRAINT Passager_Fly_FK FOREIGN KEY (ID_Fly) REFERENCES Fly(ID)
-);
+	,CONSTRAINT road_airportSurchanges_FK FOREIGN KEY (airportCode) REFERENCES airportSurchanges(airportCode)
+	,CONSTRAINT road_airportSurchanges0_FK FOREIGN KEY (airportCode_airportSurchanges) REFERENCES airportSurchanges(airportCode)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: flight
+#------------------------------------------------------------
+
+CREATE TABLE flight(
+        idFlight        Int  Auto_increment  NOT NULL ,
+        filling         Int NOT NULL ,
+        dateToDeparture Date NOT NULL ,
+        idRoad          Varchar (50) NOT NULL
+	,CONSTRAINT flight_PK PRIMARY KEY (idFlight)
+
+	,CONSTRAINT flight_road_FK FOREIGN KEY (idRoad) REFERENCES road(idRoad)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: customer
+#------------------------------------------------------------
+
+CREATE TABLE customer(
+        idCustomer  Int  Auto_increment  NOT NULL ,
+        lastName    Varchar (100) NOT NULL ,
+        fristName   Varchar (200) NOT NULL ,
+        dateOfBirth Date NOT NULL ,
+        mailAddress Varchar (200) NOT NULL
+	,CONSTRAINT customer_PK PRIMARY KEY (idCustomer)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table:  passenger
+#------------------------------------------------------------
+
+CREATE TABLE passenger(
+        idPassenger   Int  Auto_increment  NOT NULL ,
+        ticketPrice   Float NOT NULL ,
+        dateOfBooking Date NOT NULL ,
+        idBooking     Varchar (50) NOT NULL ,
+        idFlight      Int NOT NULL ,
+        idCustomer    Int NOT NULL
+	,CONSTRAINT passenger_PK PRIMARY KEY (idPassenger)
+
+	,CONSTRAINT passenger_flight_FK FOREIGN KEY (idFlight) REFERENCES flight(idFlight)
+	,CONSTRAINT passenger_customer0_FK FOREIGN KEY (idCustomer) REFERENCES customer(idCustomer)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: faresCode
+#------------------------------------------------------------
+
+CREATE TABLE faresCode(
+        fareCode        Int  Auto_increment  NOT NULL ,
+        dateToDeparture Int NOT NULL ,
+        fillingRate     Float NOT NULL
+	,CONSTRAINT faresCode_PK PRIMARY KEY (fareCode)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: fares
+#------------------------------------------------------------
+
+CREATE TABLE fares(
+        id        Int  Auto_increment  NOT NULL ,
+        weFlights Int NOT NULL ,
+        fare      Float NOT NULL ,
+        idRoad    Varchar (50) NOT NULL ,
+        fareCode  Int NOT NULL
+	,CONSTRAINT fares_PK PRIMARY KEY (id)
+
+	,CONSTRAINT fares_road_FK FOREIGN KEY (idRoad) REFERENCES road(idRoad)
+	,CONSTRAINT fares_faresCode0_FK FOREIGN KEY (fareCode) REFERENCES faresCode(fareCode)
+)ENGINE=InnoDB;
+

@@ -83,14 +83,14 @@ function prixBillet($bdd,$fly,$road){
     $filling = $fly["filling"]/$road["flightSize"]*100;
     $prixTotal = 0;
     
-    $prixVol = dbRequestTarif($bdd,$road["id_Vol"],$fly["dateToDeparture"],$filling);
+    $prixVol = dbRequestTarif($bdd,$road["idRoad"],$fly["dateToDeparture"],$filling);
     for($i=1;$i<=$_SESSION["nbPass"];$i++){
         // Calcul âge
         $date1 = new DateTime("now");
         $date2 = new DateTime($_SESSION["passager".$i][3]);
         $datediff = $date1->diff($date2);
         $age = (int)$datediff->format("%Y");
-        $prixTaxe = dbRequestTaxe($bdd,$road["airportCode"],$age) + dbRequestTaxe($bdd,$road["airportCode_Arr"],$age);
+        $prixTaxe = dbRequestTaxe($bdd,$road["airportCode"],$age) + dbRequestTaxe($bdd,$road["airportCode_airportSurchanges"],$age);
         $_SESSION["passager".$i][5] = $prixVol + $prixTaxe;
         $prixTotal += $prixTaxe + $prixVol; 
     }
@@ -107,11 +107,11 @@ function infoSearch($bdd){
     $nbSearch = 0;
     $tab2 = array();
     foreach ($tab as $flight){
-        $flys = dbRequestFly($bdd,$flight["id_vol"],$flight["flightSize"]);
+        $flys = dbRequestFly($bdd,$flight["idRoad"],$flight["flightSize"]);
         $nbSearch += count($flys);
         foreach($tab2 as $fly){
             $prixTotal = prixBillet($bdd,$fly,$flight);
-            $vol = array($fly["id_Fly"],$flight["id_Vol"],$fly["dateToDeparture"],$flight["heureDep"],$flight["heureArr"],$prixTotal);
+            $vol = array($fly["idFlight"],$flight["idRoad"],$fly["dateToDeparture"],$flight["departureTime"],$flight["arrivalTime"],$prixTotal);
             $tab2.push($vol);
         }
     }
@@ -127,30 +127,30 @@ function infoSearch($bdd){
 function reservation($bdd){
     $idFly = $_GET["id"];
 
-    $qry = "SELECT FROM Fly WHERE idFly = ?";
+    $qry = "SELECT FROM flight WHERE idFlight = ?";
     $sl = $bdd->prepare($qry);
     $sl->execute([$idFly]);
     $fly = $sl->fetch();
 
-    $qry2 = "SELECT FROM road WHERE id_Vol = ?";
+    $qry2 = "SELECT FROM road WHERE idRoad = ?";
     $sl2 = $bdd->prepare($qry2);
-    $sl2->execute([$fly["id_Vol"]]);
+    $sl2->execute([$fly["idRoad"]]);
     $road = $sl2->fetch();
 
-    $_SESSION["id_Vol"] = $road["id_Vol"];
-    $_SESSION["heureDep"] = $road["heureDep"];
-    $_SESSION["heureArr"] = $road["heureArr"];
+    $_SESSION["id_Vol"] = $road["idRoad"];
+    $_SESSION["heureDep"] = $road["departureTime"];
+    $_SESSION["heureArr"] = $road["arrivalTime"];
     $_SESSION["dateToDeparture"] = $fly["dateToDeparture"];
 
     $idBook = substr($_SESSION["passager1"][1],0,3).substr($_SESSION["passager1"][2],0,3).strval($_SESSION["prixTotal"]);
 
     for($i=1;$i<=$_SESSION["nbPass"],$i++){
-        $qry3 = "SELECT FROM customers WHERE mailAddress=?"
+        $qry3 = "SELECT FROM customer WHERE mailAddress=?"
         $sl3 = $bdd->prepare($qry3);
         $sl3->execute([$_SESSION["passager".$i][4]])
         $customer = $sl3->fetch();
 
-        $qry4 = "INSERT INTO passenger VALUES (DEFAULT,?,CURRENT_DATE,?,$customer["idCustomer"])"
+        $qry4 = "INSERT INTO passenger VALUES (DEFAULT,?,CURRENT_DATE,?,$idFly,$customer["idCustomer"])"
         $in = $bdd->prepare($qry4);
         $in->execute([$_SESSION["passager".$i][5],$idBook])
     }
