@@ -13,7 +13,7 @@ function displayVols(vols) {
      */
 }
 
-function autocompleteDepart(villes) {
+function autocompleteVilles(villes) {
 
     var liste = [];
     //alert(villes);
@@ -34,6 +34,14 @@ function autocompleteDepart(villes) {
     $('#depart').autocomplete({
         source : liste,
         minLength: 3,
-		delay: 200
+	delay: 200
+    });
+	
+
+
+    $('#arrivee').autocomplete({
+        source : liste,
+        minLength: 3,
+	delay: 200
     });
 }
