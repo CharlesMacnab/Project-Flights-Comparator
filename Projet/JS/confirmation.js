@@ -9,4 +9,4 @@ function createConfirmation(data){
     document.getElementById("total").innerHTML = "Le montant total des "+nbPass+" billets est de : "+montantTotal+"$.";
 }
 
-ajaxRequest("GET","controlleur.php?func=infoConfirmation",createConfirmation)
+ajaxRequest("GET","http://localhost/Projet-CIR2/PHP/controlleur.php",createConfirmation,"func=infoConfirmation")

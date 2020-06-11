@@ -20,8 +20,8 @@ function reservationVol(){
             valeur = document.getElementById('check'+i).value;
         }
     }
-    ajaxRequest("GET", "http://localhost/Projet/controlleur.php", null, "func=reservation&id="+valeur);
-    window.location.href("confirmation.html");
+    ajaxRequest("GET", "http://localhost/Projet-CIR2/PHP/controlleur.php", null, "func=reservation&id="+valeur);
+    window.location.href = "../HTML/confirmation.html";
 }
 
-ajaxRequest("GET", "http://localhost/Projet/controlleur.php",createFormSearch,"func=getSearch");
+ajaxRequest("GET", "http://localhost/Projet-CIR2/PHP/controlleur.php",createFormSearch,"func=getSearch");

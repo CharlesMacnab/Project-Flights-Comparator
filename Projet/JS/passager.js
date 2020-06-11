@@ -19,10 +19,10 @@ function setPassager() {
         let date = document.getElementById("date"+i).value;
         let passenger = "&passenger="+i+" "+nom+" "+prenom+" "+date+" "+mail;
         data += passenger;
-        ajaxRequest("GET", "http://localhost/Projet-CIR2/controlleur.php",null,"func=setPassenger"+data);          
+        ajaxRequest("GET", "http://localhost/Projet-CIR2/PHP/controlleur.php",null,"func=setPassenger"+data);          
     }
 
-    window.location.href = "recherche.html";
+    window.location.href = "../HTML/recherche.html";
 }
 
-ajaxRequest("GET", "http://localhost/Projet-CIR2/controlleur.php",createFormPassenger,"func=getInfoVol");
+ajaxRequest("GET", "http://localhost/Projet-CIR2/PHP/controlleur.php",createFormPassenger,"func=getInfoVol");
