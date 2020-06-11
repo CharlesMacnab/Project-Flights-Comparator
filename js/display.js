@@ -29,7 +29,9 @@ function autocompleteVilles(villes) {
         //alert(liste);
     }
 
-    alert(liste);
+    //alert(liste);
+    liste.sort();
+    //alert(liste);
 
     $('#depAir').autocomplete({
         source : liste,
