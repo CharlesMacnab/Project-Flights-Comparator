@@ -82,8 +82,12 @@ function prixBillet($bdd,$fly,$road){
     // Calcul places remplies
     $filling = $fly["filling"]/$road["flightSize"]*100;
     $prixTotal = 0;
-    
-    $prixVol = dbRequestTarif($bdd,$road["idRoad"],$fly["dateToDeparture"],$filling);
+    $we = 0;
+    $jour = date("w", strtotime($_SESSION["dateVol"]));
+    if($jour == 6 || $jour == 0){
+        $we = 1;
+    }
+    $prixVol = dbRequestTarif($bdd,$road["idRoad"],$fly["dateToDeparture"],$filling,$we);
     for($i=1;$i<=$_SESSION["nbPass"];$i++){
         // Calcul âge
         $date1 = new DateTime("now");
@@ -102,7 +106,7 @@ function prixBillet($bdd,$fly,$road){
 function infoSearch($bdd){
 
     //Les vols disponibles
-    $jour = date("N", strtotime($_SESSION["dateVol"]));
+    $jour = date("w", strtotime($_SESSION["dateVol"]));
     $tab = dbRequestRoutes($bdd, $_SESSION["depart"]$_SESSION["arrive"],$jour);
     $nbSearch = 0;
     $tab2 = array();
