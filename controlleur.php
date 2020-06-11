@@ -94,7 +94,7 @@ function prixBillet($bdd,$fly,$road){
         $_SESSION["passager".$i][5] = $prixVol + $prixTaxe;
         $prixTotal += $prixTaxe + $prixVol; 
     }
-
+    $_SESSION["prixTotal"] = $prixTotal;
     return $prixTotal;
     
 }
@@ -141,6 +141,19 @@ function reservation($bdd){
     $_SESSION["heureDep"] = $road["heureDep"];
     $_SESSION["heureArr"] = $road["heureArr"];
     $_SESSION["dateToDeparture"] = $fly["dateToDeparture"];
+
+    $idBook = substr($_SESSION["passager1"][1],0,3).substr($_SESSION["passager1"][2],0,3).strval($_SESSION["prixTotal"]);
+
+    for($i=1;$i<=$_SESSION["nbPass"],$i++){
+        $qry3 = "SELECT FROM customers WHERE mailAddress=?"
+        $sl3 = $bdd->prepare($qry3);
+        $sl3->execute([$_SESSION["passager".$i][4]])
+        $customer = $sl3->fetch();
+
+        $qry4 = "INSERT INTO passenger VALUES (DEFAULT,?,CURRENT_DATE,?,$customer["idCustomer"])"
+        $in = $bdd->prepare($qry4);
+        $in->execute([$_SESSION["passager".$i][5],$idBook])
+    }
 }
 
 if($_GET["func"]=="getSearch"){
