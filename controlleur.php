@@ -1,7 +1,5 @@
 <?php
 
-session_start();
-
 
 
 function connexion($base, $user, $password){
@@ -19,6 +17,8 @@ $bdd = connexion('mysql:host=localhost;port=3306;dbname=projetCIR2','admin','pas
 
 function infoVol($bdd){
 
+    session_start();
+    
     $_SESSION['depart'] = $_GET['depAir'];
     $_SESSION['arrive'] = $_GET['arrAir'];
     $_SESSION['dateVol'] = $_GET['date'];
