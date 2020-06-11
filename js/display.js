@@ -24,7 +24,7 @@ function autocompleteDepart(villes) {
         //alert(ville);
         //console.log(ville.depVille);
         //alert(ville.depVille);
-        liste.push(ville.city);
+        liste.push(ville.city + " (" + ville.airportCode + ")");
         //console.log(liste);
         //alert(liste);
     }
