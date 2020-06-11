@@ -1,7 +1,7 @@
 'use strict';
 
 ajaxRequest('GET', 'BDD/request.php/vols/', displayVols);
-ajaxRequest('GET', 'BDD/request.php/depart/', autocompleteDepart);
+ajaxRequest('GET', 'BDD/request.php/villes/', autocompleteVilles);
 
 function displayVols(vols) {
     //console.log(vols);
