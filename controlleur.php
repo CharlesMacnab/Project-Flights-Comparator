@@ -104,17 +104,19 @@ function infoSearch($bdd){
     //Les vols disponibles
     $jour = date("N", strtotime($_SESSION["dateVol"]));
     $tab = dbRequestRoutes($bdd, $_SESSION["depart"]$_SESSION["arrive"],$jour);
+    $nbSearch = 0;
     $tab2 = array();
     foreach ($tab as $flight){
         $flys = dbRequestFly($bdd,$flight["id_vol"],$flight["flightSize"]);
+        $nbSearch += count($flys);
         foreach($tab2 as $fly){
             $prixTotal = prixBillet($bdd,$fly,$flight);
-            $vol = array($flight["id_Vol"],$fly["dateToDeparture"],$flight["heureDep"],$flight["heureArr"],$prixTotal);
+            $vol = array($fly["id_Fly"],$flight["id_Vol"],$fly["dateToDeparture"],$flight["heureDep"],$flight["heureArr"],$prixTotal);
             $tab2.push($vol);
         }
     }
         
-    $json = json_encode($tab2);
+    $json = json_encode(array($nbSearch,$tab2);
     echo $json;
 
 
@@ -122,13 +124,23 @@ function infoSearch($bdd){
     
 }
 
-function getSearch(){
-    $tab[0] = $_SESSION["nbrOfVols"];
-    for ($i = 1 ; $i <= $_SESSION["nbrOfVols"] ; $i++){
-        $tab[$i] = array($_SESSION["id_Vol"],$_SESSION['dateVol'],$_SESSION["heureDep"], $_SESSION["heureArr"],$_SESSION["tarifTotal"]);
-    }
-    $json = json_encode($tab);
-    echo $json;
+function reservation($bdd){
+    $idFly = $_GET["id"];
+
+    $qry = "SELECT FROM Fly WHERE idFly = ?";
+    $sl = $bdd->prepare($qry);
+    $sl->execute([$idFly]);
+    $fly = $sl->fetch();
+
+    $qry2 = "SELECT FROM road WHERE id_Vol = ?";
+    $sl2 = $bdd->prepare($qry2);
+    $sl2->execute([$fly["id_Vol"]]);
+    $road = $sl2->fetch();
+
+    $_SESSION["id_Vol"] = $road["id_Vol"];
+    $_SESSION["heureDep"] = $road["heureDep"];
+    $_SESSION["heureArr"] = $road["heureArr"];
+    $_SESSION["dateToDeparture"] = $fly["dateToDeparture"];
 }
 
 if($_GET["func"]=="getSearch"){
@@ -146,6 +158,9 @@ if($_GET["func"]=="getInfoVol"){
 }
 if($_GET["func"]=="setPassenger"){
     infoPassager($bdd);
+}
+if($_GET["func"]=="reservation"){
+    reservation($bdd);
 }
 
 
